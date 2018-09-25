@@ -166,6 +166,8 @@ public class SearchActivity extends AppCompatActivity {
 	protected void onResume () {
 		super.onResume();
 
+		// Let's make sure we update the adapter's favorite list in case user updated
+		// come places (added/removed) in the details screen
 		final Set<String> favoritePlaces = getSharedPreferences(SEATTLE_SEARCH_PREFERENCES, MODE_MULTI_PROCESS).getStringSet(SearchActivity.SEATTLE_FAVORITE_VENUES, new HashSet<String>());
 		venueAdapter.updateFavorites(favoritePlaces);
 	}
