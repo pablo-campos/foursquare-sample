@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	app:layout_behavior="@string/appbar_scrolling_view_behavior"
+	tools:context=".activities.DetailsActivity"
+	tools:showIn="@layout/activity_details">
+
+	<LinearLayout
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		android:orientation="vertical">
+
+		<TextView
+			android:id="@+id/description"
+			android:layout_marginStart="@dimen/xlarge_margin"
+			android:layout_marginEnd="@dimen/xlarge_margin"
+			android:layout_marginTop="@dimen/xlarge_margin"
+			android:layout_marginBottom="0dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="@dimen/medium_font_size"
+			android:textColor="@color/global_text_color"/>
+
+		<TextView
+			android:id="@+id/venue_website"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="@dimen/xlarge_margin"
+			android:textSize="@dimen/medium_font_size"
+			android:textColor="@color/global_link_color"/>
+
+	</LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

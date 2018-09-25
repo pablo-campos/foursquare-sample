@@ -1,0 +1,184 @@
+package com.pablocampos.foursquaresample.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.pablocampos.foursquaresample.R;
+import com.pablocampos.foursquaresample.adapters.VenueAdapter;
+import com.pablocampos.foursquaresample.adapters.VenueClickListener;
+import com.pablocampos.foursquaresample.models.Venue;
+import com.pablocampos.foursquaresample.network.FoursquareTask;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class SearchActivity extends AppCompatActivity {
+
+
+	public static final String CURRENT_RESPONSE = "CURRENT_RESPONSE";
+	public static final String SELECTED_VENUE = "SELECTED_VENUE";
+
+	public static final String SEATTLE_SEARCH_PREFERENCES = "SEATTLE_SEARCH_APP_PREFERENCES";
+	public static final String SEATTLE_FAVORITE_VENUES = "SEATTLE_FAVORITE_VENUES_PREFERENCE";
+
+	private final String CURRENT_SEARCH = "CURRENT_SEARCH";		// Current query
+
+	// Current query
+	private String currentSearchQuery;
+
+	// Views
+	private SearchView searchView;
+	private VenueAdapter venueAdapter;
+	private RecyclerView recyclerView;
+	private FoursquareTask foursquareTask;
+
+
+
+	@Override
+	public boolean onCreateOptionsMenu( Menu menu) {
+
+		getMenuInflater().inflate(R.menu.menu_search, menu);
+
+		// Initialize the search functionality on the activity's toolbar
+		final MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
+		searchView = (SearchView) myActionMenuItem.getActionView();
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+
+				if(!searchView.isIconified()) {
+					searchView.setIconified(true);
+				}
+				myActionMenuItem.collapseActionView();
+				return false;
+			}
+			@Override
+			public boolean onQueryTextChange(String s) {
+
+				// If there's a search going on, let's cancel it since we need to request a new search query
+				if (foursquareTask != null){
+					foursquareTask.cancel(true);
+					foursquareTask = null;
+				}
+
+				// If search view is empty, let's update the adapter with zero items, if not, let's request a new search query:
+				if (s.isEmpty()){
+					venueAdapter.updateApiData(null);
+				} else {
+					String clientId = getResources().getString(R.string.foursquare_client_id);
+					String clientSecret = getResources().getString(R.string.foursquare_client_secret);
+					String near = getResources().getString(R.string.venues_near);
+					String v = getResources().getString(R.string.venues_v);
+					String limit = getResources().getString(R.string.venues_limit);
+					String seattleCenterLat = getResources().getString(R.string.seattle_center_lat);
+					String seattleCenterLng = getResources().getString(R.string.seattle_center_lng);
+
+					foursquareTask = new FoursquareTask(venueAdapter, s, clientId, clientSecret, near, v, limit, seattleCenterLat + "," + seattleCenterLng);
+					foursquareTask.execute();
+				}
+
+				return false;
+			}
+		});
+
+		if (currentSearchQuery != null){
+			searchView.setQuery(currentSearchQuery, false);
+		}
+
+		return true;
+	}
+
+
+
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_search);
+
+		// Initialize toolbar
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
+		VenueClickListener venueClickListener = new VenueClickListener() {
+			@Override
+			public void onClick (final Venue venue) {
+
+				// Open details activity
+				Intent detailsActivity = new Intent(SearchActivity.this, DetailsActivity.class);
+				detailsActivity.putExtra(SELECTED_VENUE, venue);
+				startActivity(detailsActivity, null);
+			}
+		};
+
+		// Initialize RecyclerView with a new adapter
+		recyclerView = findViewById(R.id.venues_recycler_view);
+		recyclerView.setHasFixedSize(true);
+		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+		venueAdapter = new VenueAdapter(venueClickListener);
+		recyclerView.setAdapter(venueAdapter);
+
+		// Initialize FAB
+		FloatingActionButton fab = findViewById(R.id.fab);
+		fab.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick (View view) {
+				Intent mapActivity = new Intent(SearchActivity.this, MapActivity.class);
+				mapActivity.putExtra(CURRENT_RESPONSE, venueAdapter.getResponse());
+				startActivity(mapActivity, null);
+			}
+		});
+	}
+
+
+
+	@Override
+	protected void onRestoreInstanceState (final Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+
+		// Let's restore the activity's state before it was destroyed
+		if (savedInstanceState != null && savedInstanceState.containsKey(CURRENT_SEARCH)){
+			currentSearchQuery = savedInstanceState.getString(CURRENT_SEARCH);
+		}
+	}
+
+
+
+	@Override
+	protected void onSaveInstanceState (final Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		// Save the current search query
+		outState.putString(CURRENT_SEARCH, searchView.getQuery().toString());
+	}
+
+
+
+	@Override
+	protected void onResume () {
+		super.onResume();
+
+		final Set<String> favoritePlaces = getSharedPreferences(SEATTLE_SEARCH_PREFERENCES, MODE_MULTI_PROCESS).getStringSet(SearchActivity.SEATTLE_FAVORITE_VENUES, new HashSet<String>());
+		venueAdapter.updateFavorites(favoritePlaces);
+	}
+
+
+
+	@Override
+	protected void onDestroy () {
+		super.onDestroy();
+
+		// If there's a search going on, let's cancel it so that there are no memory leaks
+		if (foursquareTask != null){
+			foursquareTask.cancel(true);
+		}
+	}
+}
