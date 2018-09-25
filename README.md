@@ -17,3 +17,7 @@ You should be able to clone the project and run it on Android Studio.
 
 ## Observations / Notes:
 * Note that URL per venue are not comming back from API, so default URL is "google.com" for now.
+
+## History
+
+## Known Bugs
