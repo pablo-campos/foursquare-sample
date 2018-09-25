@@ -1,4 +1,4 @@
-This a Foursquare Project Sample
+This is a Foursquare Project Sample
 
 A few enhancements to keep in mind:
 * Better data persistance.
