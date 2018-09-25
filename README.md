@@ -1,7 +1,7 @@
 # Foursquare Sample
 This app helps users search for places in Seattle, Washington using the Foursquare API; view their search results in a list or on a map; and view the individual details of each search result.
 
-## Installation
+## Installation:
 You should be able to clone the project and run it on Android Studio.
 
 ## A few enhancements to keep in mind:
@@ -18,6 +18,6 @@ You should be able to clone the project and run it on Android Studio.
 ## Observations / Notes:
 * Note that URL per venue are not comming back from API, so default URL is "google.com" for now.
 
-## History
+## History:
 
-## Known Bugs
+## Known Bugs:
