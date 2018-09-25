@@ -1,9 +1,9 @@
-<snippet>
-  <content><![CDATA[
-# ${1:Project Name}
- This app helps users search for places in Seattle, Washington using the Foursquare API; view their search results in a list or on a map; and view the individual details of each search result.
+# Foursquare Sample
+This app helps users search for places in Seattle, Washington using the Foursquare API; view their search results in a list or on a map; and view the individual details of each search result.
+
 ## Installation
 You should be able to clone the project and run it on Android Studio.
+
 ## A few enhancements to keep in mind:
 * Continue adding details on details screen.
 * Better data persistance.
@@ -14,8 +14,6 @@ You should be able to clone the project and run it on Android Studio.
 * Add a loading dialog/view when a query is being performed.
 * Add an error dialog in case device can't connect to internet.
 * Integrate category icons into Google Map results (pins).
+
 ## Observations / Notes:
 * Note that URL per venue are not comming back from API, so default URL is "google.com" for now.
-]]></content>
-  <tabTrigger>readme</tabTrigger>
-</snippet>
