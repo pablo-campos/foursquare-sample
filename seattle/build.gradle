@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 
+
+
 android {
+
 	compileSdkVersion 27
 	defaultConfig {
 		applicationId "com.pablocampos.foursquaresample"
@@ -10,6 +13,7 @@ android {
 		versionName "1.0"
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 	}
+
 	buildTypes {
 		release {
 			minifyEnabled false
@@ -17,6 +21,8 @@ android {
 		}
 	}
 }
+
+
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -33,6 +39,7 @@ dependencies {
 	implementation 'com.github.bumptech.glide:glide:4.8.0'
 	annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
-	// GSON
-	implementation 'com.google.code.gson:gson:2.8.5'
+	// Retrofit / GSON
+	implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+	implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 }

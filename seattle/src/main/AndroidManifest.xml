@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.pablocampos.foursquaresample"
-	>
+	package="com.pablocampos.foursquaresample">
 
 	<!-- Permissions -->
 	<uses-permission android:name="android.permission.INTERNET"/>
@@ -44,18 +43,16 @@
         -->
 		<meta-data
 			android:name="com.google.android.geo.API_KEY"
-			android:value="@string/google_maps_key"
-			/>
+			android:value="@string/google_maps_key"/>
 
 		<activity
 			android:name=".activities.MapActivity"
-			android:label="@string/title_activity_map"
-			/>
+			android:label="@string/title_activity_map"/>
+
 		<activity
 			android:name=".activities.DetailsActivity"
 			android:label="@string/title_activity_details"
-			android:theme="@style/AppTheme.NoActionBar"
-			></activity>
+			android:theme="@style/AppTheme.NoActionBar"/>
 	</application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.pablocampos.foursquaresample.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +16,17 @@ import android.view.View;
 import com.pablocampos.foursquaresample.R;
 import com.pablocampos.foursquaresample.adapters.VenueAdapter;
 import com.pablocampos.foursquaresample.adapters.VenueClickListener;
+import com.pablocampos.foursquaresample.models.ApiData;
 import com.pablocampos.foursquaresample.models.Venue;
-import com.pablocampos.foursquaresample.network.FoursquareTask;
+import com.pablocampos.foursquaresample.network.RetrofitFoursquareApi;
+import com.pablocampos.foursquaresample.network.RetrofitFoursquareInterface;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -39,7 +46,6 @@ public class SearchActivity extends AppCompatActivity {
 	private SearchView searchView;
 	private VenueAdapter venueAdapter;
 	private RecyclerView recyclerView;
-	private FoursquareTask foursquareTask;
 
 
 
@@ -62,35 +68,21 @@ public class SearchActivity extends AppCompatActivity {
 				return false;
 			}
 			@Override
-			public boolean onQueryTextChange(String s) {
-
-				// If there's a search going on, let's cancel it since we need to request a new search query
-				if (foursquareTask != null){
-					foursquareTask.cancel(true);
-					foursquareTask = null;
-				}
+			public boolean onQueryTextChange(String query) {
 
 				// If search view is empty, let's update the adapter with zero items, if not, let's request a new search query:
-				if (s.isEmpty()){
+				if (query.isEmpty()){
 					venueAdapter.updateApiData(null);
 				} else {
-					String clientId = getResources().getString(R.string.foursquare_client_id);
-					String clientSecret = getResources().getString(R.string.foursquare_client_secret);
-					String near = getResources().getString(R.string.venues_near);
-					String v = getResources().getString(R.string.venues_v);
-					String limit = getResources().getString(R.string.venues_limit);
-					String seattleCenterLat = getResources().getString(R.string.seattle_center_lat);
-					String seattleCenterLng = getResources().getString(R.string.seattle_center_lng);
-
-					foursquareTask = new FoursquareTask(venueAdapter, s, clientId, clientSecret, near, v, limit, seattleCenterLat + "," + seattleCenterLng);
-					foursquareTask.execute();
+					performQuery(query);
 				}
 
 				return false;
 			}
 		});
 
-		if (currentSearchQuery != null){
+		if (currentSearchQuery != null && !currentSearchQuery.isEmpty()){
+			MenuItemCompat.expandActionView(myActionMenuItem);		// We need to expand the search view before
 			searchView.setQuery(currentSearchQuery, false);
 		}
 
@@ -174,13 +166,30 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-	@Override
-	protected void onDestroy () {
-		super.onDestroy();
+	private void performQuery(final String query){
 
-		// If there's a search going on, let's cancel it so that there are no memory leaks
-		if (foursquareTask != null){
-			foursquareTask.cancel(true);
-		}
+		String clientId = getResources().getString(R.string.foursquare_client_id);
+		String clientSecret = getResources().getString(R.string.foursquare_client_secret);
+		String near = getResources().getString(R.string.venues_near);
+		String v = getResources().getString(R.string.venues_v);
+		String limit = getResources().getString(R.string.venues_limit);
+		String seattleCenterLat = getResources().getString(R.string.seattle_center_lat);
+		String seattleCenterLng = getResources().getString(R.string.seattle_center_lng);
+		String seattleCenter = seattleCenterLat + "," + seattleCenterLng;
+
+		RetrofitFoursquareInterface service = RetrofitFoursquareApi.getClient().create(RetrofitFoursquareInterface.class);
+
+		Call<ApiData> call = service.getVenues(clientId, clientSecret, near, query, v, limit, seattleCenter);
+		call.enqueue(new Callback<ApiData>() {
+			@Override
+			public void onResponse(Call<ApiData> call, Response<ApiData> response) {
+				venueAdapter.updateApiData(response.body().getResponse());
+			}
+
+			@Override
+			public void onFailure(Call<ApiData> call, Throwable t) {
+
+			}
+		});
 	}
 }
