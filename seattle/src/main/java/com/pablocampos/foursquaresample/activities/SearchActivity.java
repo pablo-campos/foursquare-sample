@@ -2,7 +2,9 @@ package com.pablocampos.foursquaresample.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,6 +43,7 @@ public class SearchActivity extends AppCompatActivity {
 
 	// Current query
 	private String currentSearchQuery;
+	Call<ApiData> apiCall;
 
 	// Views
 	private SearchView searchView;
@@ -74,6 +77,12 @@ public class SearchActivity extends AppCompatActivity {
 				if (query.isEmpty()){
 					venueAdapter.updateApiData(null);
 				} else {
+
+					// Cancel any pending queries
+					if (apiCall != null){
+						apiCall.cancel();
+					}
+
 					performQuery(query);
 				}
 
@@ -179,16 +188,18 @@ public class SearchActivity extends AppCompatActivity {
 
 		RetrofitFoursquareInterface service = RetrofitFoursquareApi.getClient().create(RetrofitFoursquareInterface.class);
 
-		Call<ApiData> call = service.getVenues(clientId, clientSecret, near, query, v, limit, seattleCenter);
-		call.enqueue(new Callback<ApiData>() {
+		apiCall = service.getVenues(clientId, clientSecret, near, query, v, limit, seattleCenter);
+		apiCall.enqueue(new Callback<ApiData>() {
 			@Override
 			public void onResponse(Call<ApiData> call, Response<ApiData> response) {
-				venueAdapter.updateApiData(response.body().getResponse());
+				venueAdapter.updateApiData(response.body().getResponse());		// Update data on adapter
 			}
 
 			@Override
 			public void onFailure(Call<ApiData> call, Throwable t) {
 
+				// Display an error
+				Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, BaseTransientBottomBar.LENGTH_SHORT);
 			}
 		});
 	}

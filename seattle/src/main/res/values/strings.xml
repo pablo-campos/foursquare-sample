@@ -29,5 +29,6 @@
 	<string name="venue_removed_favorite">Venue removed from favorites</string>
 	<string name="venue_website_label">Visit Website (google.com if no website provided)</string>
 	<string name="default_venue_website">https://www.google.com</string>
+	<string name="network_call_error">An error occurred. Please try again.</string>
 
 </resources>
