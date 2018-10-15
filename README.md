@@ -6,11 +6,9 @@ You should be able to clone the project and run it on Android Studio.
 
 ## A few enhancements to keep in mind:
 * Continue adding details on details screen.
-* Better data persistance.
 * Use SVGs for the favorite/unfavorite icons and apply colors instead.
 * Add unit testing.
 * Add an empty view in cases: no query requested by user OR no search results for user's requested query.
-* Add an error view to handle errors from BE.
 * Add a loading dialog/view when a query is being performed.
 * Add an error dialog in case device can't connect to internet.
 * Integrate category icons into Google Map results (pins).
