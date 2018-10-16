@@ -4,6 +4,11 @@ This app helps users search for places in Seattle, Washington using the Foursqua
 ## Installation:
 You should be able to clone the project and run it on Android Studio.
 
+## Third Party Libraries in Use:
+* Glide.
+* Retrofit.
+* GSON.
+
 ## A few enhancements to keep in mind:
 * Continue adding details on details screen.
 * Use SVGs for the favorite/unfavorite icons and apply colors instead.
