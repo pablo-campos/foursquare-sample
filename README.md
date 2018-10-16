@@ -10,7 +10,6 @@ You should be able to clone the project and run it on Android Studio.
 * Add unit testing.
 * Add an empty view in cases: no query requested by user OR no search results for user's requested query.
 * Add a loading dialog/view when a query is being performed.
-* Add an error dialog in case device can't connect to internet.
 * Integrate category icons into Google Map results (pins).
 
 ## Observations / Notes:
