@@ -22,6 +22,7 @@ import com.pablocampos.foursquaresample.models.ApiData;
 import com.pablocampos.foursquaresample.models.Venue;
 import com.pablocampos.foursquaresample.network.RetrofitFoursquareApi;
 import com.pablocampos.foursquaresample.network.RetrofitFoursquareInterface;
+import com.pablocampos.foursquaresample.utils.NetworkUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -60,6 +61,7 @@ public class SearchActivity extends AppCompatActivity {
 		// Initialize the search functionality on the activity's toolbar
 		final MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
 		searchView = (SearchView) myActionMenuItem.getActionView();
+
 		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 			@Override
 			public boolean onQueryTextSubmit(String query) {
@@ -76,7 +78,7 @@ public class SearchActivity extends AppCompatActivity {
 				// If search view is empty, let's update the adapter with zero items, if not, let's request a new search query:
 				if (query.isEmpty()){
 					venueAdapter.updateApiData(null);
-				} else {
+				} else if (NetworkUtils.checkInternet(SearchActivity.this)){		// Check internet connection and then perform query
 
 					// Cancel any pending queries
 					if (apiCall != null){
@@ -203,4 +205,5 @@ public class SearchActivity extends AppCompatActivity {
 			}
 		});
 	}
+
 }
