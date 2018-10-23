@@ -1,38 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	app:layout_behavior="@string/appbar_scrolling_view_behavior"
-	tools:context=".activities.DetailsActivity"
-	tools:showIn="@layout/activity_details">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<LinearLayout
-		android:layout_height="match_parent"
+	<data>
+		<variable
+			name="venue"
+			type="com.pablocampos.foursquaresample.models.Venue" />
+	</data>
+
+	<android.support.v4.widget.NestedScrollView
+		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
-		android:orientation="vertical">
+		android:layout_height="match_parent"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior"
+		tools:context=".activities.DetailsActivity"
+		tools:showIn="@layout/activity_details">
 
-		<TextView
-			android:id="@+id/description"
-			android:layout_marginStart="@dimen/xlarge_margin"
-			android:layout_marginEnd="@dimen/xlarge_margin"
-			android:layout_marginTop="@dimen/xlarge_margin"
-			android:layout_marginBottom="0dp"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textSize="@dimen/medium_font_size"
-			android:textColor="@color/global_text_color"/>
+		<LinearLayout
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:orientation="vertical"
+			android:layout_marginTop="@dimen/large_margin"
+			android:layout_marginBottom="@dimen/large_margin">
 
-		<TextView
-			android:id="@+id/venue_website"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="@dimen/xlarge_margin"
-			android:textSize="@dimen/medium_font_size"
-			android:textColor="@color/global_link_color"/>
+			<TextView
+				android:id="@+id/venue_name"
+				android:layout_marginStart="@dimen/xlarge_margin"
+				android:layout_marginEnd="@dimen/xlarge_margin"
+				android:layout_marginTop="@dimen/medium_margin"
+				android:layout_marginBottom="@dimen/medium_margin"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="@dimen/medium_font_size"
+				android:textColor="@color/global_text_color"
+				android:text="@{venue.name}"/>
 
-	</LinearLayout>
+			<TextView
+				android:id="@+id/venue_category"
+				android:layout_marginStart="@dimen/xlarge_margin"
+				android:layout_marginEnd="@dimen/xlarge_margin"
+				android:layout_marginTop="@dimen/medium_margin"
+				android:layout_marginBottom="@dimen/medium_margin"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="@dimen/medium_font_size"
+				android:textColor="@color/global_text_color"
+				android:text="@{venue.categories.get(0).name}"/>
 
-</android.support.v4.widget.NestedScrollView>
+			<TextView
+				android:id="@+id/venue_location"
+				android:layout_marginStart="@dimen/xlarge_margin"
+				android:layout_marginEnd="@dimen/xlarge_margin"
+				android:layout_marginTop="@dimen/medium_margin"
+				android:layout_marginBottom="@dimen/medium_margin"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textSize="@dimen/medium_font_size"
+				android:textColor="@color/global_text_color"
+				android:text="@{venue.getLocation().getFormattedAddress()}"/>
+
+			<TextView
+				android:id="@+id/venue_website"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="@dimen/xlarge_margin"
+				android:textSize="@dimen/medium_font_size"
+				android:textColor="@color/global_link_color"/>
+
+		</LinearLayout>
+
+	</android.support.v4.widget.NestedScrollView>
+
+</layout>

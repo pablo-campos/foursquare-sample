@@ -1,6 +1,7 @@
 package com.pablocampos.foursquaresample.activities;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pablocampos.foursquaresample.R;
+import com.pablocampos.foursquaresample.databinding.ActivityDetailsBinding;
 import com.pablocampos.foursquaresample.models.Venue;
 
 import java.util.HashSet;
@@ -42,7 +44,8 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_details);
+		// Instantiate a new data binding view
+		ActivityDetailsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
 
 		// Retrieve set of favorite places:
 		Toolbar toolbar = findViewById(R.id.toolbar);
@@ -52,10 +55,9 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.details_map);
 		mapFragment.getMapAsync(this);
 
-		// For this case, we are going to use a single TextView, but this could be a lot more customizable
+		// Bind data to it's view
 		venue = (Venue) getIntent().getSerializableExtra(SearchActivity.SELECTED_VENUE);
-		TextView descriptionTextView = findViewById(R.id.description);
-		descriptionTextView.setText(getFormattedDescription());
+		binding.setVenue(venue);
 
 		// Initialize this venue's website
 		TextView venueWebsite = findViewById(R.id.venue_website);
@@ -144,7 +146,7 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
 		float seattleCenterLat = Float.valueOf(getResources().getString(R.string.seattle_center_lat));
 		float seattleCenterLng = Float.valueOf(getResources().getString(R.string.seattle_center_lng));
 		LatLng seattleCenter = new LatLng(seattleCenterLat, seattleCenterLng);
-		googleMap.addMarker(new MarkerOptions().position(seattleCenter).title("Center of Seattle"));
+		googleMap.addMarker(new MarkerOptions().position(seattleCenter).title(getResources().getString(R.string.center_of_seattle_title)));
 
 		// If we have results (venues), let's display them on the map
 		LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -169,21 +171,5 @@ public class DetailsActivity extends AppCompatActivity implements OnMapReadyCall
 				googleMap.moveCamera(cu);
 			}
 		});
-	}
-
-
-
-	/**
-	 * Format a long string with newlines as we desire given certain
-	 * details of this venue.
-	 * @return formatted text.
-	 */
-	private String getFormattedDescription(){
-		StringBuilder formattedDescription = new StringBuilder();
-		formattedDescription.append(venue.getName()).append("\n\n");
-		formattedDescription.append(venue.getCategories().get(0).getName()).append("\n\n");
-		formattedDescription.append(venue.getLocation().getFormattedAddress()).append("\n");
-		formattedDescription.append("We can continue adding more details here...");
-		return formattedDescription.toString();
 	}
 }
