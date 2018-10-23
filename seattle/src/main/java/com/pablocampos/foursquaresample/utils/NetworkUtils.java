@@ -24,7 +24,7 @@ public class NetworkUtils {
 			AlertDialog.Builder builder = new AlertDialog.Builder(context)
 					.setTitle(context.getResources().getString(R.string.no_internet_error_title))
 					.setMessage(context.getResources().getString(R.string.no_internet_error_message))
-					.setPositiveButton(context.getResources().getString(R.string.no_internet_error_button), null)
+					.setPositiveButton(context.getResources().getString(android.R.string.ok), null)
 					.setIconAttribute(android.R.attr.alertDialogIcon);
 			builder.show();
 
