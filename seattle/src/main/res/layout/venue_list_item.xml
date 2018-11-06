@@ -10,8 +10,7 @@
 	android:layout_marginTop="@dimen/small_margin"
 	android:layout_marginBottom="@dimen/small_margin"
 	android:layout_marginStart="@dimen/medium_margin"
-	android:layout_marginEnd="@dimen/medium_margin"
-	>
+	android:layout_marginEnd="@dimen/medium_margin">
 
 	<RelativeLayout
 		android:padding="@dimen/medium_margin"
@@ -26,6 +25,7 @@
 			android:layout_width="30dp"
 			android:layout_height="30dp"
 			android:contentDescription="@string/preview_content_description"
+			android:layout_marginStart="@dimen/small_margin"
 			android:scaleType="fitXY"/>
 
 		<LinearLayout
@@ -35,7 +35,8 @@
 			android:layout_height="wrap_content"
 			android:layout_toEndOf="@id/venue_icon"
 			android:layout_toStartOf="@+id/venue_favorite"
-			android:layout_marginStart="@dimen/medium_margin">
+			android:layout_marginStart="@dimen/large_margin"
+			android:layout_marginEnd="@dimen/large_margin">
 
 			<TextView
 				android:id="@+id/venue_name"
@@ -70,6 +71,7 @@
 			android:layout_width="30dp"
 			android:layout_height="30dp"
 			android:contentDescription="@string/preview_content_description"
+			android:layout_marginEnd="@dimen/small_margin"
 			android:scaleType="centerInside"/>
 
 	</RelativeLayout>

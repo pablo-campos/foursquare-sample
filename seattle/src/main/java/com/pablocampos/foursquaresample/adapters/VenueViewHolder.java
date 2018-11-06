@@ -1,5 +1,7 @@
 package com.pablocampos.foursquaresample.adapters;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,11 +22,11 @@ public class VenueViewHolder extends RecyclerView.ViewHolder {
 
 	// Each data item is just a string in this case
 	private CardView cardView;
-	private ImageView icon;
+	private ImageView venueIcon;
 	private TextView name;
 	private TextView category;
 	private TextView distance;
-	private ImageView favorite;
+	private ImageView favoriteIcon;
 
 
 
@@ -32,11 +34,11 @@ public class VenueViewHolder extends RecyclerView.ViewHolder {
 		super(v);
 		cardView = (CardView) v;
 		cardView.setCardBackgroundColor(v.getContext().getResources().getColor(R.color.cardBackgroundColor));
-		icon = v.findViewById(R.id.venue_icon);
+		venueIcon = v.findViewById(R.id.venue_icon);
 		name = v.findViewById(R.id.venue_name);
 		category = v.findViewById(R.id.venue_category);
 		distance = v.findViewById(R.id.venue_distance);
-		favorite = v.findViewById(R.id.venue_favorite);
+		favoriteIcon = v.findViewById(R.id.venue_favorite);
 	}
 
 
@@ -55,27 +57,38 @@ public class VenueViewHolder extends RecyclerView.ViewHolder {
 
 		// Categories
 		StringBuilder categories = new StringBuilder();
-		categories.append(icon.getContext().getResources().getString(R.string.venue_categories_label) + ":");
+		categories.append(venueIcon.getContext().getResources().getString(R.string.venue_categories_label) + ":");
 		for (Category category : venue.getCategories()){
 			categories.append(" " + category.getName());
 		}
 		category.setText(categories);
 
 		// Distance from center of Seattle
-		StringBuilder distanceValue = new StringBuilder(icon.getContext().getResources().getString(R.string.venue_distance_label) + " " + venue.getLocation().getDistance() + " " + icon.getContext().getResources().getString(R.string.venue_distance_meters_label));
+		StringBuilder distanceValue = new StringBuilder(
+				venueIcon.getContext().getResources().getString(R.string.venue_distance_label) + " " + venue.getLocation().getDistance() + " " + venueIcon
+						.getContext().getResources().getString(R.string.venue_distance_meters_label));
 		distance.setText(distanceValue);
 
-		// Venue's icon
+		// Venue's venueIcon
 		if (venue.getCategories().isEmpty()){
-			icon.setVisibility(View.GONE);
+			venueIcon.setVisibility(View.GONE);
 		} else {
-			icon.setVisibility(View.VISIBLE);
-			Glide.with(icon.getContext()).load(venue.getCategories().get(0).getIcon().getUrl()).into(icon);
+			venueIcon.setVisibility(View.VISIBLE);
+			Glide.with(venueIcon.getContext()).load(venue.getCategories().get(0).getIcon().getUrl()).into(venueIcon);
 		}
 
-		// Is this a favorite venue?
-		int favoriteIconId = favorites.contains(venue.getId()) ? R.drawable.favorite_black : R.drawable.favorite_border_black;
-		favorite.setImageDrawable(favorite.getContext().getResources().getDrawable(favoriteIconId, favorite.getContext().getTheme()));
+		// Is this a favoriteIcon venue?
+		int favoriteIconId, favoriteColor;
+		if (favorites.contains(venue.getId())) {
+			favoriteIconId = R.drawable.favorite_black;
+			favoriteColor = Color.RED;
+		} else {
+			favoriteIconId = R.drawable.favorite_border_black;
+			favoriteColor = Color.LTGRAY;
+		}
+
+		favoriteIcon.setImageDrawable(favoriteIcon.getContext().getResources().getDrawable(favoriteIconId, favoriteIcon.getContext().getTheme()));
+		favoriteIcon.setColorFilter(favoriteColor, PorterDuff.Mode.SRC_IN);
 	}
 
 }
