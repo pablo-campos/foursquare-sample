@@ -11,7 +11,6 @@ You should be able to clone the project and run it on Android Studio.
 
 ## A few enhancements to keep in mind:
 * Continue adding details on details screen.
-* Use SVGs for the favorite/unfavorite icons and apply colors instead.
 * Add unit testing.
 * Add an empty view in cases: no query requested by user OR no search results for user's requested query.
 * Add a loading dialog/view when a query is being performed.
@@ -23,3 +22,15 @@ You should be able to clone the project and run it on Android Studio.
 ## History:
 
 ## Known Bugs:
+
+## Screenshots:
+* Main view:
+<img src="main_view.png" width="240" height="428"/>
+
+
+* Map view:
+<img src="map_view.png" width="240" height="428"/>
+
+
+* Details view:
+<img src="details_view.png" width="240" height="428"/>
