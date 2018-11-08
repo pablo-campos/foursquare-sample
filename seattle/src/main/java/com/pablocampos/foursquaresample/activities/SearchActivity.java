@@ -44,7 +44,7 @@ public class SearchActivity extends AppCompatActivity {
 
 	// Current query
 	private String currentSearchQuery;
-	Call<ApiData> apiCall;
+	private Call<ApiData> apiCall;
 
 	// Views
 	private SearchView searchView;
