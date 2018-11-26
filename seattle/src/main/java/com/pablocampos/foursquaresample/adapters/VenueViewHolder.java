@@ -43,12 +43,12 @@ public class VenueViewHolder extends RecyclerView.ViewHolder {
 
 
 
-	public void initialize(final Set<String> favorites, final Venue venue, final VenueClickListener oeuvreClickListener){
+	public void initialize(final Set<String> favorites, final Venue venue, final VenueClickListener venueClickListener){
 
 		cardView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick (final View v) {
-				oeuvreClickListener.onClick(venue);
+				venueClickListener.onClick(venue);
 			}
 		});
 
