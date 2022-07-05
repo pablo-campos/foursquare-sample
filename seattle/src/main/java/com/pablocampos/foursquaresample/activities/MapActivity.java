@@ -70,34 +70,22 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 			final int padding = 200; 	// offset from edges of the map in pixels
 			final CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
-			googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-				@Override
-				public void onMapLoaded () {
-					googleMap.animateCamera(cu);
-				}
-			});
+			googleMap.setOnMapLoadedCallback(() -> googleMap.animateCamera(cu));
 
 		} else {
 
 			// Since we have no venues to display, let's go ahead and clear the map and adjust zoom
 			googleMap.clear();
-			googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-				@Override
-				public void onMapLoaded () {
-					googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(seattleCenter, 13));
-				}
-			});
+			googleMap.setOnMapLoadedCallback(() -> googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(seattleCenter, 13)));
 		}
 
-		googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-			public void onInfoWindowClick(Marker marker) {
-				Venue venue = (Venue) marker.getTag();
+		googleMap.setOnInfoWindowClickListener(marker -> {
+			Venue venue = (Venue) marker.getTag();
 
-				// Open details activity
-				Intent detailsActivity = new Intent(MapActivity.this, DetailsActivity.class);
-				detailsActivity.putExtra(SearchActivity.SELECTED_VENUE, venue);
-				startActivity(detailsActivity, null);
-			}
+			// Open details activity
+			Intent detailsActivity = new Intent(MapActivity.this, DetailsActivity.class);
+			detailsActivity.putExtra(SearchActivity.SELECTED_VENUE, venue);
+			startActivity(detailsActivity, null);
 		});
 	}
 }
