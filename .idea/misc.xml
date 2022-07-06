@@ -6,6 +6,8 @@
         <entry key="seattle/src/main/res/layout/activity_map.xml" value="0.4473958333333333" />
         <entry key="seattle/src/main/res/mipmap-anydpi-v26/seattle-search-icon.xml" value="0.3275" />
         <entry key="seattle/src/main/res/mipmap-anydpi-v26/seattle-search-icon_round.xml" value="0.3275" />
+        <entry key="seattle/src/main/res/mipmap-anydpi-v26/seattle_search_icon.xml" value="0.134" />
+        <entry key="seattle/src/main/res/mipmap-anydpi-v26/seattle_search_icon_round.xml" value="0.17" />
       </map>
     </option>
   </component>
