@@ -31,6 +31,7 @@
 	<string name="venue_website_label">Visit Website (google.com if no website provided)</string>
 	<string name="default_venue_website">https://www.google.com</string>
 	<string name="network_call_error">An error occurred. Please try again.</string>
+	<string name="credits_exhausted_error">Foursquare API credits exhausted.</string>
 	<string name="no_internet_error_title">No Internet Connection</string>
 	<string name="no_internet_error_message">Please check your internet connection and try again.</string>
 

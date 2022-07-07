@@ -194,14 +194,20 @@ public class SearchActivity extends AppCompatActivity {
 		apiCall.enqueue(new Callback<ApiData>() {
 			@Override
 			public void onResponse(Call<ApiData> call, Response<ApiData> response) {
-				venueAdapter.updateApiData(response.body().getResponse());		// Update data on adapter
+				if (response.body() != null){
+					venueAdapter.updateApiData(response.body().getResponse());		// Update data on adapter
+				} else if (response.errorBody() != null){
+
+					// Credits exhausted
+					Snackbar.make(findViewById(android.R.id.content), R.string.credits_exhausted_error, BaseTransientBottomBar.LENGTH_SHORT).show();
+				}
 			}
 
 			@Override
 			public void onFailure(Call<ApiData> call, Throwable t) {
 
 				// Display an error
-				Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, BaseTransientBottomBar.LENGTH_SHORT);
+				Snackbar.make(findViewById(android.R.id.content), R.string.network_call_error, BaseTransientBottomBar.LENGTH_SHORT).show();
 			}
 		});
 	}
